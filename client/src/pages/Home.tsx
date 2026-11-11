@@ -211,7 +211,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-full">
       {/* Navigation Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-border shadow-sm">
         <div className="container flex items-center justify-between h-20">
@@ -504,7 +504,7 @@ export default function Home() {
       </section>
 
       {/* Featured Treks - Dark Luxury Section with Integrated Live Weather Telemetry */}
-      <section id="featured" className="pt-16 pb-32 bg-slate-900 text-white relative">
+      <section id="featured" className="pt-16 pb-20 sm:pb-32 bg-slate-900 text-white relative overflow-hidden">
         <div className="container">
           {/* Live Summit Weather Station Telemetry Bar */}
           <div id="weather" style={{ scrollMarginTop: "130px" }} className="scroll-mt-32 mb-16 pt-2">
@@ -759,7 +759,7 @@ export default function Home() {
       </section>
 
       {/* Destinations - Dark Editorial Section */}
-      <section id="destinations" className="py-32 bg-slate-900 text-white">
+      <section id="destinations" className="py-20 sm:py-32 bg-slate-900 text-white overflow-hidden">
         <div className="container">
           <div className="mb-20">
             <p className="text-primary font-semibold tracking-widest uppercase text-sm mb-4">
@@ -814,14 +814,14 @@ export default function Home() {
       </section>
 
       {/* About Us - Asymmetric Layout */}
-      <section id="about" className="py-32 bg-white">
+      <section id="about" className="py-20 sm:py-32 bg-white overflow-hidden">
         <div className="container">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="order-2 md:order-1">
               <p className="text-primary font-semibold tracking-widest uppercase text-sm mb-4">
                 Our Story
               </p>
-              <h3 className="text-6xl font-bold text-foreground mb-8">
+              <h3 className="text-4xl sm:text-6xl font-bold text-foreground mb-8">
                 About Kailasa Trails
               </h3>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
@@ -860,10 +860,10 @@ export default function Home() {
               <img
                 src="/manus-storage/mountain-lake-reflection_28b217ce.png"
                 alt="About Kailasa Trails"
-                className="rounded-lg shadow-2xl"
+                className="rounded-lg shadow-2xl w-full"
               />
-              <div className="absolute -bottom-8 -right-8 bg-primary text-primary-foreground p-8 rounded-lg shadow-2xl max-w-xs">
-                <p className="text-lg font-semibold italic">
+              <div className="absolute -bottom-4 right-2 sm:-bottom-8 sm:-right-8 bg-primary text-primary-foreground p-4 sm:p-8 rounded-lg shadow-2xl max-w-[220px] sm:max-w-xs">
+                <p className="text-sm sm:text-lg font-semibold italic">
                   "Where silence becomes the greatest luxury"
                 </p>
               </div>
@@ -873,14 +873,14 @@ export default function Home() {
       </section>
 
       {/* Interactive Mountain Mini-Game - Summit Rush */}
-      <section id="summit-game" className="py-28 bg-slate-900 text-white relative border-t border-b border-white/5">
+      <section id="summit-game" className="py-20 sm:py-28 bg-slate-900 text-white relative border-t border-b border-white/5 overflow-hidden">
         <div className="container">
           <SummitRushGame />
         </div>
       </section>
 
       {/* Trekkers' Gallery - Client Photos & Experiences */}
-      <section id="gallery" className="py-32 bg-slate-100">
+      <section id="gallery" className="py-20 sm:py-32 bg-slate-100 overflow-hidden">
         <div className="container">
           <div className="mb-16">
             <p className="text-primary font-semibold tracking-widest uppercase text-sm mb-4">
@@ -1051,7 +1051,7 @@ export default function Home() {
       </section>
 
       {/* Share Your Experience - Dark Premium */}
-      <section id="share-experience" className="py-32 bg-slate-900 text-white">
+      <section id="share-experience" className="py-20 sm:py-32 bg-slate-900 text-white overflow-hidden">
         <div className="container">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
@@ -1201,7 +1201,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section - Dark Premium */}
-      <section id="contact" className="py-32 bg-slate-900 text-white">
+      <section id="contact" className="py-20 sm:py-32 bg-slate-900 text-white overflow-hidden">
         <div className="container max-w-4xl">
           <div className="text-center mb-16">
             <p className="text-primary font-semibold tracking-widest uppercase text-sm mb-4">
@@ -1313,7 +1313,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-950 border-t border-white/10 py-16 text-white">
+      <footer className="bg-slate-950 border-t border-white/10 py-16 text-white overflow-hidden">
       <div className="container">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>

@@ -161,7 +161,7 @@ export default function TrekDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-full">
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-border shadow-sm">
         <div className="container flex items-center justify-between h-20">
