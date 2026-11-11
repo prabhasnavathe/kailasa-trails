@@ -23,6 +23,14 @@ function ScrollToTop() {
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
     }
+
+    // Google Analytics route tracking for Single Page Application
+    if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+      (window as any).gtag("event", "page_view", {
+        page_path: location,
+        page_title: document.title,
+      });
+    }
   }, [location]);
 
   return null;
