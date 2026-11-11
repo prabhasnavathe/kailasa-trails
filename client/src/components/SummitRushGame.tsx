@@ -292,8 +292,9 @@ export default function SummitRushGame() {
 
     const resize = () => {
       if (!containerRef.current || !canvas) return;
-      canvas.width = containerRef.current.clientWidth || 800;
-      canvas.height = 440;
+      const w = containerRef.current.clientWidth || 800;
+      canvas.width = w;
+      canvas.height = w < 640 ? 560 : 460;
     };
     resize();
     window.addEventListener("resize", resize);
@@ -847,99 +848,111 @@ export default function SummitRushGame() {
 
         {/* Start Game Screen */}
         {gameState === "idle" && (
-          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center animate-in fade-in">
-            <div className="p-4 rounded-3xl bg-amber-400/20 border border-amber-400/30 text-amber-300 mb-4 shadow-xl">
-              <Mountain className="w-12 h-12" />
+          <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-md overflow-y-auto overscroll-contain p-4 sm:p-6 text-center animate-in fade-in flex flex-col items-center">
+            <div className="my-auto flex flex-col items-center w-full max-w-md py-4">
+              <div className="p-3 sm:p-4 rounded-3xl bg-amber-400/20 border border-amber-400/30 text-amber-300 mb-3 shadow-xl">
+                <Mountain className="w-10 h-10 sm:w-12 sm:h-12" />
+              </div>
+              <h4 className="text-2xl sm:text-4xl font-extrabold text-white mb-2 leading-tight">
+                Ascend to 13,549 FT & Win ₹500
+              </h4>
+              <p className="text-xs sm:text-sm text-white/70 max-w-md mb-5 leading-relaxed">
+                Launch your carabiner hook, balance across ice shelves and bouncy snow banks, and conquer the sacred summit to claim an exclusive <strong className="text-emerald-400">₹500 trek voucher</strong>!
+              </p>
+              <Button
+                size="lg"
+                onClick={startGame}
+                className="bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 hover:from-amber-500 hover:to-orange-600 text-black font-extrabold text-sm sm:text-base px-8 py-5 sm:py-6 rounded-2xl shadow-2xl shadow-amber-500/30 transition-transform hover:scale-105"
+              >
+                <Play className="w-5 h-5 fill-current mr-2" /> Start Ascent Now
+              </Button>
             </div>
-            <h4 className="text-3xl sm:text-4xl font-extrabold text-white mb-2">
-              Ascend to 13,549 FT & Win ₹500
-            </h4>
-            <p className="text-sm text-white/70 max-w-md mb-6 leading-relaxed">
-              Launch your carabiner hook, balance across ice shelves and bouncy snow banks, and conquer the sacred summit to claim an exclusive <strong className="text-emerald-400">₹500 trek voucher</strong>!
-            </p>
-            <Button
-              size="lg"
-              onClick={startGame}
-              className="bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 hover:from-amber-500 hover:to-orange-600 text-black font-extrabold text-base px-9 py-6 rounded-2xl shadow-2xl shadow-amber-500/30 transition-transform hover:scale-105"
-            >
-              <Play className="w-5 h-5 fill-current mr-2" /> Start Ascent Now
-            </Button>
           </div>
         )}
 
         {/* Game Over Screen */}
         {gameState === "gameover" && (
-          <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center animate-in zoom-in-95 duration-200">
-            <div className="p-3 rounded-full bg-red-500/20 border border-red-500/30 text-red-400 mb-3">
-              <RotateCcw className="w-8 h-8 animate-spin" style={{ animationDuration: "8s" }} />
+          <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md overflow-y-auto overscroll-contain p-4 sm:p-6 text-center animate-in zoom-in-95 duration-200 flex flex-col items-center">
+            <div className="my-auto flex flex-col items-center w-full max-w-md py-4">
+              <div className="p-3 rounded-full bg-red-500/20 border border-red-500/30 text-red-400 mb-3">
+                <RotateCcw className="w-8 h-8 animate-spin" style={{ animationDuration: "8s" }} />
+              </div>
+              <h4 className="text-2xl sm:text-3xl font-extrabold text-white mb-1">Out of Safety Ropes!</h4>
+              <p className="text-xs sm:text-sm text-white/70 mb-5">
+                You climbed to <strong className="text-cyan-300 font-mono">{altitude.toLocaleString()} FT</strong> with a score of <strong className="text-amber-400 font-mono">{score}</strong>. The summit awaits your return!
+              </p>
+              <Button
+                size="lg"
+                onClick={startGame}
+                className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black font-bold px-8 py-4 sm:py-5 rounded-2xl shadow-lg text-sm sm:text-base"
+              >
+                <RotateCcw className="w-4 h-4 mr-2" /> Try Again
+              </Button>
             </div>
-            <h4 className="text-3xl font-extrabold text-white mb-1">Out of Safety Ropes!</h4>
-            <p className="text-sm text-white/70 mb-5">
-              You climbed to <strong className="text-cyan-300 font-mono">{altitude.toLocaleString()} FT</strong> with a score of <strong className="text-amber-400 font-mono">{score}</strong>. The summit awaits your return!
-            </p>
-            <Button
-              size="lg"
-              onClick={startGame}
-              className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-black font-bold px-8 py-5 rounded-2xl shadow-lg"
-            >
-              <RotateCcw className="w-4 h-4 mr-2" /> Try Again
-            </Button>
           </div>
         )}
 
         {/* Victory Screen - 13,549 FT Reached - ₹500 Voucher */}
         {gameState === "victory" && (
-          <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center animate-in zoom-in-95 duration-300">
-            <div className="p-4 rounded-3xl bg-amber-400/20 border border-amber-400/40 text-amber-300 mb-3 shadow-2xl animate-bounce">
-              <Award className="w-12 h-12" />
-            </div>
-            <h4 className="text-3xl sm:text-4xl font-extrabold text-white mb-2">
-              13,549 FT SUMMIT CONQUERED! 🏔️
-            </h4>
-            <p className="text-sm text-white/80 max-w-lg mb-4">
-              Master mountaineer! You reached the sacred crest with a score of <strong className="text-amber-400 font-mono">{score}</strong>! Here is your official <strong className="text-emerald-400">₹{VOUCHER_VALUE} OFF</strong> expedition voucher:
-            </p>
-
-            {/* Voucher Card */}
-            <div className="bg-gradient-to-r from-slate-900 to-slate-950 border-2 border-amber-400/40 rounded-2xl p-4 sm:px-6 mb-6 flex items-center justify-between gap-4 max-w-md w-full shadow-2xl">
-              <div className="text-left">
-                <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider">Trek Voucher Value</span>
-                <p className="text-2xl font-black text-white">₹{VOUCHER_VALUE} OFF</p>
-                <p className="text-xs text-white/50 font-mono mt-0.5">Code: <strong className="text-cyan-300">{VOUCHER_CODE}</strong></p>
+          <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-xl overflow-y-auto overscroll-contain p-4 sm:p-6 text-center animate-in zoom-in-95 duration-300 flex flex-col items-center">
+            <div className="my-auto flex flex-col items-center w-full max-w-lg py-2">
+              <div className="p-3 sm:p-4 rounded-3xl bg-amber-400/20 border border-amber-400/40 text-amber-300 mb-2 sm:mb-3 shadow-2xl animate-bounce">
+                <Award className="w-10 h-10 sm:w-12 sm:h-12" />
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCopyVoucher}
-                className="border-amber-400/40 text-amber-300 hover:bg-amber-400/20"
-              >
-                {copied ? <Check className="w-4 h-4 text-emerald-400 mr-1.5" /> : <Copy className="w-4 h-4 mr-1.5" />}
-                {copied ? "Copied!" : "Copy Code"}
-              </Button>
-            </div>
+              <h4 className="text-2xl sm:text-4xl font-extrabold text-white mb-1.5 sm:mb-2 leading-tight">
+                13,549 FT SUMMIT CONQUERED! 🏔️
+              </h4>
+              <p className="text-xs sm:text-sm text-white/80 max-w-lg mb-3 sm:mb-4">
+                Master mountaineer! You reached the sacred crest with a score of{" "}
+                <strong className="text-amber-400 font-mono">{score}</strong>! Here is your official{" "}
+                <strong className="text-emerald-400">₹{VOUCHER_VALUE} OFF</strong> expedition voucher:
+              </p>
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button
-                size="lg"
-                onClick={() => {
-                  const url = `https://wa.me/919440650253?text=${encodeURIComponent(
-                    `Hi Kailasa Trails! I just conquered the 13,549 FT Summit Climber game on your website with a score of ${score}! I want to redeem my ₹${VOUCHER_VALUE} voucher (${VOUCHER_CODE}) for my next trek booking!`
-                  )}`;
-                  window.open(url, "_blank", "noopener,noreferrer");
-                }}
-                className="bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-black font-extrabold px-8 py-5 rounded-2xl shadow-xl shadow-emerald-500/20"
-              >
-                <MessageCircle className="w-4 h-4 mr-2" />
-                Claim ₹{VOUCHER_VALUE} Voucher on WhatsApp →
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={startGame}
-                className="border-white/30 text-white hover:bg-white/10 px-6 py-5 rounded-2xl"
-              >
-                Play Again
-              </Button>
+              {/* Voucher Card */}
+              <div className="bg-gradient-to-r from-slate-900 to-slate-950 border-2 border-amber-400/40 rounded-2xl p-3.5 sm:px-6 mb-4 sm:mb-6 flex items-center justify-between gap-3 sm:gap-4 max-w-md w-full shadow-2xl">
+                <div className="text-left">
+                  <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider">
+                    Trek Voucher Value
+                  </span>
+                  <p className="text-xl sm:text-2xl font-black text-white">₹{VOUCHER_VALUE} OFF</p>
+                  <p className="text-xs text-white/50 font-mono mt-0.5">
+                    Code: <strong className="text-cyan-300">{VOUCHER_CODE}</strong>
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCopyVoucher}
+                  className="border-amber-400/40 text-amber-300 hover:bg-amber-400/20 text-xs sm:text-sm shrink-0"
+                >
+                  {copied ? <Check className="w-4 h-4 text-emerald-400 mr-1.5" /> : <Copy className="w-4 h-4 mr-1.5" />}
+                  {copied ? "Copied!" : "Copy Code"}
+                </Button>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full max-w-md">
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    const url = `https://wa.me/919440650253?text=${encodeURIComponent(
+                      `Hi Kailasa Trails! I just conquered the 13,549 FT Summit Climber game on your website with a score of ${score}! I want to redeem my ₹${VOUCHER_VALUE} voucher (${VOUCHER_CODE}) for my next trek booking!`
+                    )}`;
+                    window.open(url, "_blank", "noopener,noreferrer");
+                  }}
+                  className="w-full bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-black font-extrabold px-5 py-4 rounded-2xl shadow-xl shadow-emerald-500/20 text-xs sm:text-sm"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Claim ₹{VOUCHER_VALUE} Voucher on WhatsApp →
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={startGame}
+                  className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 px-5 py-4 rounded-2xl text-xs sm:text-sm"
+                >
+                  <RotateCcw className="w-4 h-4 mr-1.5" /> Play Again
+                </Button>
+              </div>
             </div>
           </div>
         )}
