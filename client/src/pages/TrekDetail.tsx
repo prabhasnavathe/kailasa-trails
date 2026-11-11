@@ -11,6 +11,7 @@ import {
 import { getTrekBySlug, formatPrice } from "@/lib/treks";
 import {
   ChevronRight,
+  ChevronLeft,
   MapPin,
   Users,
   Calendar,
@@ -164,37 +165,56 @@ export default function TrekDetail() {
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-full">
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-border shadow-sm">
-        <div className="container flex items-center justify-between h-20">
+        <div className="container flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
+          {/* Back button */}
           <button
             onClick={handleBack}
-            className="text-foreground hover:text-primary transition-colors font-semibold"
+            className="inline-flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-foreground font-semibold text-xs sm:text-sm transition-colors shrink-0"
+            aria-label="Back"
           >
-            ← Back
+            <ChevronLeft className="w-4 h-4 text-primary" />
+            <span>Back</span>
           </button>
-          <h1 className="text-lg font-bold text-foreground">{trek.name}</h1>
-          <div className="flex items-center gap-3">
+
+          {/* Trek Title */}
+          <div className="flex-1 min-w-0 px-1 sm:px-2 text-center sm:text-left">
+            <h1 className="text-xs sm:text-base md:text-lg font-bold text-foreground truncate">
+              {trek.name}
+            </h1>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+            {/* WhatsApp - Compact icon on mobile, full text on desktop */}
             <a
               href={`https://wa.me/919440650253?text=${encodeURIComponent(
                 `Hi Kailasa Trails! I'm interested in the ${trek.name} trek. Could you share upcoming dates and availability?`
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-colors"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold transition-colors shadow-sm"
+              title="Enquire on WhatsApp"
             >
-              <MessageCircle className="h-4 w-4" /> Enquire on WhatsApp
+              <MessageCircle className="h-4 w-4" />
+              <span className="hidden md:inline">Enquire on WhatsApp</span>
             </a>
+
+            {/* Discover All Treks button */}
             <Button
               size="sm"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              variant="outline"
+              className="hidden sm:inline-flex border-border text-foreground hover:bg-slate-100 text-xs sm:text-sm"
               onClick={() => {
                 setLocation("/#featured");
               }}
             >
               Discover
             </Button>
+
+            {/* Book Now button */}
             <Button
               size="sm"
-              className="bg-emerald-700 hover:bg-emerald-800 text-white"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-semibold px-2.5 sm:px-4"
               onClick={() => {
                 document
                   .getElementById("booking")
@@ -208,7 +228,7 @@ export default function TrekDetail() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 overflow-hidden bg-slate-900 text-white">
+      <section className="relative pt-24 sm:pt-32 pb-20 sm:pb-24 overflow-hidden bg-slate-900 text-white">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-40"
           style={{ backgroundImage: `url('${trek.image}')` }}
