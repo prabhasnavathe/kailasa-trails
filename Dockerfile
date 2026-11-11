@@ -1,55 +1,40 @@
-# Multi-stage production Dockerfile for Kailasa Trails
-FROM node:20-alpine AS base
+# Production Dockerfile for Kailasa Trails
+FROM node:20-slim AS builder
+WORKDIR /app
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-# -----------------
-# 1. Dependencies
-# -----------------
-FROM base AS deps
-WORKDIR /app
+# 1. Install dependencies (including patches)
 COPY package.json pnpm-lock.yaml ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+COPY patches ./patches
+RUN pnpm install
 
-# -----------------
-# 2. Build Stage
-# -----------------
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# 2. Build the application
 COPY . .
 ENV NODE_ENV=production
 RUN pnpm run build
 
 # -----------------
-# 3. Production Runner
+# Production Runner
 # -----------------
-FROM node:20-alpine AS runner
+FROM node:20-slim AS runner
 WORKDIR /app
+
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Install production dependencies only
-COPY package.json pnpm-lock.yaml ./
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable && pnpm install --prod --frozen-lockfile
-
-# Copy compiled bundles and public assets
+# Copy node_modules and built code from builder
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/data ./data
 COPY --from=builder /app/client/public ./client/public
+COPY --from=builder /app/package.json ./package.json
 
-# Ensure uploads and data directories exist
+# Ensure data and uploads directories exist
 RUN mkdir -p /app/data /app/dist/public/uploads /app/client/public/uploads
 
-# Expose port
 EXPOSE 3000
 
-# Healthcheck
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/trpc/gallery.listApproved || exit 1
-
-# Start production server
 CMD ["node", "dist/index.js"]
