@@ -223,10 +223,6 @@ export default function GalleryAdmin() {
                       {showPasscode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
-                  <p className="text-[11px] text-white/40 mt-1.5 flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 inline" />
-                    Default Passcode: <code className="text-amber-300 font-mono">kailasa2026</code>
-                  </p>
                 </div>
 
                 <Button
