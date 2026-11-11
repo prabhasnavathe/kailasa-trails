@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Aarav Patel",
+    "email": "aarav.patel@gmail.com",
+    "phone": "+91 94406 50253",
+    "trek": "Brahmatal Winter Trek",
+    "story": "Standing at 11,570 ft with Mt. Trishul right in front of our eyes at sunrise was an unforgettable spiritual awakening. Kailasa Trails guides were world-class!",
+    "photoUrl": "/manus-storage/trekker-summit-celebration_7cdb949b.png",
+    "photoKey": "gallery/sample1.png",
+    "status": "rejected",
+    "createdAt": "2026-11-08T08:30:00.000Z"
+  },
+  {
+    "id": 2,
+    "name": "Pooja Reddy",
+    "email": "pooja.r@outlook.com",
+    "phone": "+91 98765 43210",
+    "trek": "Kedarkantha Summit",
+    "story": "Sub-zero alpine push at 2 AM under shooting stars. Reached the summit right as the Swargarohini peak caught first alpenglow.",
+    "photoUrl": "/manus-storage/trekker-group-sunrise_89814204.png",
+    "photoKey": "gallery/sample2.png",
+    "status": "rejected",
+    "createdAt": "2026-11-09T09:15:00.000Z"
+  },
+  {
+    "id": 3,
+    "name": "Vikram Mehra",
+    "email": "vikram.m@gmail.com",
+    "phone": "+91 91234 56789",
+    "trek": "Bali Pass Expedition",
+    "story": "Crossing the knifedge ridge at 16,200 ft with ropes was thrilling. Rented all winter gear from Kailasa Trails, top notch quality!",
+    "photoUrl": "/manus-storage/trekker-summit-celebration_7cdb949b.png",
+    "photoKey": "gallery/sample3.png",
+    "status": "rejected",
+    "createdAt": "2026-11-10T06:45:00.000Z"
+  }
+]

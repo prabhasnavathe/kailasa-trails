@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  kailasa-trails:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kailasa-trails-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      # Persistent storage for approved submissions and uploaded photos
+      - kailasa_data:/app/data
+      - kailasa_uploads:/app/dist/public/uploads
+      - kailasa_client_uploads:/app/client/public/uploads
+
+volumes:
+  kailasa_data:
+  kailasa_uploads:
+  kailasa_client_uploads:
