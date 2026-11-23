@@ -624,6 +624,15 @@ export default function Home() {
                           <span className="px-3 py-0.5 rounded-full text-xs font-semibold bg-white/10 text-white/80 border border-white/10">
                             Best Season: {trek.bestSeason.join(", ")}
                           </span>
+                          {trek.batches && trek.batches.map((batch, bIdx) => (
+                            <span
+                              key={bIdx}
+                              className="px-3 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-amber-500/25 to-orange-500/25 text-amber-300 border border-amber-400/50 inline-flex items-center gap-1.5 shadow-sm"
+                            >
+                              <span>🎉</span>
+                              <span>{batch.label}</span>
+                            </span>
+                          ))}
                         </div>
 
                         <h4 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
@@ -666,7 +675,7 @@ export default function Home() {
 
                         <a
                           href={`https://wa.me/919440650253?text=${encodeURIComponent(
-                            `Hi Kailasa Trails! I want to book the ${trek.name} (${formatPrice(trek, trek.price)}/person + 5% GST = ${formatPrice(trek, Math.round(trek.price * 1.05))}). Please share the upcoming batch dates and booking details.`
+                            `Hi Kailasa Trails! I want to book the ${trek.name} (${formatPrice(trek, trek.price)}/person + 5% GST = ${formatPrice(trek, Math.round(trek.price * 1.05))})${trek.batches && trek.batches.length > 0 ? ` for the ${trek.batches[0].label}` : ""}. Please share the upcoming batch dates and booking details.`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"

@@ -6,6 +6,14 @@ export interface TrekDay {
   distance?: string;
 }
 
+export interface TrekBatch {
+  startDate: string;
+  endDate: string;
+  label: string;
+  badge?: string;
+  status?: "filling-fast" | "available" | "limited";
+}
+
 export interface Trek {
   id: string;
   name: string;
@@ -26,6 +34,7 @@ export interface Trek {
   bestSeason: string[];
   maxAltitude: string;
   totalDistance: string;
+  batches?: TrekBatch[];
 }
 
 export const treks: Trek[] = [
@@ -127,12 +136,13 @@ export const treks: Trek[] = [
       "min": 6,
       "max": 20
     },
-    "price": 6000,
+    "price": 7999,
     "currency": "INR",
     "image": "/manus-storage/kedarkantha-cover.jpg",
     "shortDescription": "The Queen of Winter Treks \u2014 a 5-day snow-laden expedition through pine forests and frozen Juda Ka Talab to the summit of Kedarkantha at 12,500 ft.",
     "fullDescription": "Known as the \u201cQueen of Winter Treks,\u201d Kedarkantha packs summit views, frozen alpine lakes, and snow-laden pine forests into one of the most rewarding beginner treks in the Himalayas. Standing tall at 12,500 feet in Uttarakhand's Uttarkashi district, the trek offers a perfect blend of adventure, natural beauty, and spiritual vibes. Surrounded by breathtaking views of Himalayan peaks like Swargarohini, Bandarpoonch, and Kala Nag, trekkers camp at picturesque spots like Juda Ka Talab and Kedarkantha Base Camp under clear starlit skies before pushing for the sunrise summit.",
     "highlights": [
+      "Special New Year Batch: 29th December to 2nd January (Celebrate 12,500 ft summit sunrise)",
       "12,500 ft summit elevation with 360\u00b0 Himalayan panorama at dawn",
       "Juda Ka Talab \u2014 enchanting high-altitude frozen lake",
       "360\u00b0 views of Swargarohini, Bandarpoonch, and Kala Nag",
@@ -140,6 +150,15 @@ export const treks: Trek[] = [
       "Picturesque base camps with Bortle-class stargazing",
       "Pickup and drop from Dehradun Railway Station / Patel Nagar included",
       "Best Season: December to April"
+    ],
+    "batches": [
+      {
+        "startDate": "2026-12-29",
+        "endDate": "2027-01-02",
+        "label": "New Year Special Batch (29th Dec \u2013 2nd Jan)",
+        "badge": "New Year Special \ud83c\udf89",
+        "status": "filling-fast"
+      }
     ],
     "itinerary": [
       {
@@ -189,6 +208,7 @@ export const treks: Trek[] = [
       "24\u00d77 customer service with 50+ professional team members"
     ],
     "excludes": [
+      "GST @ 5%",
       "Personal insurance",
       "Personal toiletry items & medicine kit",
       "Meals during transit (Dehradun to Sankri & back)",

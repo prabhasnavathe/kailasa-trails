@@ -97,7 +97,7 @@ const HIMALAYAN_PEAKS: PeakProfile[] = [
       {
         name: "Kedarkantha Trek",
         slug: "kedarkantha-trek",
-        price: "₹6,000",
+        price: "₹7,999",
         duration: "5D / 4N",
         altitude: "12,500 FT",
       },
@@ -220,7 +220,7 @@ const SEASONS: SeasonCategory[] = [
       {
         name: "Kedarkantha Trek",
         slug: "kedarkantha-trek",
-        price: "₹6,000",
+        price: "₹7,999",
         duration: "5D / 4N",
         altitude: "12,500 FT",
         badge: "Queen of Winter Treks",

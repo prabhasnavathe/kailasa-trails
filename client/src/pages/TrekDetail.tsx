@@ -82,7 +82,10 @@ export default function TrekDetail() {
 
   const generateWhatsAppBookingUrl = (withLeadInfo: boolean = false) => {
     if (!trek) return "#";
-    const dateText = selectedDate
+    const matchingBatch = trek.batches?.find((b) => b.startDate === selectedDate);
+    const dateText = matchingBatch
+      ? `🎉 ${matchingBatch.label}`
+      : selectedDate
       ? new Date(selectedDate).toLocaleDateString("en-IN", {
           day: "numeric",
           month: "long",
@@ -93,7 +96,7 @@ export default function TrekDetail() {
     const lines = [
       `*Expedition Booking Request — Kailasa Trails*`,
       `*Trek:* ${trek.name}`,
-      `*Departure Date:* ${dateText}`,
+      matchingBatch ? `*Batch:* ${dateText}` : `*Departure Date:* ${dateText}`,
       `*Group Size:* ${peopleCount} ${peopleCount === 1 ? "Person" : "Trekkers"}`,
       `*Base Fare:* ${formatPrice(trek, baseFare)} (${formatPrice(trek, trek.price)}/person)`,
       `*GST (5%):* ₹${gstAmount.toLocaleString("en-IN")}`,
@@ -237,8 +240,19 @@ export default function TrekDetail() {
 
         <div className="container relative z-10">
           <div className="max-w-3xl">
-            <div className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-primary/20 text-primary border border-primary/30 mb-4">
-              {trek.difficulty} Grade · {trek.duration} Days
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <div className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-primary/20 text-primary border border-primary/30">
+                {trek.difficulty} Grade · {trek.duration} Days
+              </div>
+              {trek.batches && trek.batches.map((batch, bIdx) => (
+                <div
+                  key={bIdx}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-amber-500/30 to-orange-500/30 text-amber-300 border border-amber-400/50 shadow-md"
+                >
+                  <span>🎉</span>
+                  <span>{batch.label}</span>
+                </div>
+              ))}
             </div>
             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
               {trek.name}
@@ -391,11 +405,67 @@ export default function TrekDetail() {
           </h3>
 
           <Card className="border-border p-6 sm:p-10 bg-slate-50 shadow-xl rounded-3xl">
+            {/* Special / Upcoming Event Batches */}
+            {trek.batches && trek.batches.length > 0 && (
+              <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-500/10 via-primary/5 to-emerald-500/10 border-2 border-amber-400/40 shadow-sm">
+                <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">🎉</span>
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-amber-900 bg-amber-200/90 px-2.5 py-0.5 rounded-full border border-amber-400/60">
+                      Official Event Batch
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+                    Filling Fast
+                  </span>
+                </div>
+
+                <div className="space-y-2.5">
+                  {trek.batches.map((batch, bIdx) => {
+                    const isSelected = selectedDate === batch.startDate;
+                    return (
+                      <button
+                        key={bIdx}
+                        type="button"
+                        onClick={() => setSelectedDate(batch.startDate)}
+                        className={`w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between flex-wrap gap-3 ${
+                          isSelected
+                            ? "bg-amber-500/15 border-amber-500 ring-2 ring-amber-400/50 shadow-md"
+                            : "bg-white/90 hover:bg-white border-border hover:border-amber-400/50"
+                        }`}
+                      >
+                        <div>
+                          <p className="text-sm sm:text-base font-extrabold text-foreground flex items-center gap-2">
+                            <span>{batch.label}</span>
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-0.5">
+                            Celebrate the New Year at 12,500 ft summit with 360° golden sunrise & starlit snow camp!
+                          </p>
+                        </div>
+                        <span
+                          className={`text-xs px-3.5 py-1.5 rounded-lg font-bold transition-all shadow-xs ${
+                            isSelected
+                              ? "bg-emerald-600 text-white"
+                              : "bg-amber-100 text-amber-900 border border-amber-300 hover:bg-amber-200"
+                          }`}
+                        >
+                          {isSelected ? "✓ Batch Selected" : "Select This Batch"}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* 1. Departure Date Selection (Past/Completed Dates Disabled) */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-semibold text-foreground">
-                  Select Your Departure Date
+                  {trek.batches && trek.batches.length > 0
+                    ? "Or Select a Custom Departure Date"
+                    : "Select Your Departure Date"}
                 </label>
                 <span className="text-xs text-muted-foreground">
                   Past dates disabled
@@ -573,9 +643,13 @@ export default function TrekDetail() {
                 <span className="font-semibold text-white">{trek.name}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-white/60">Departure Date:</span>
+                <span className="text-white/60">
+                  {trek.batches?.some((b) => b.startDate === selectedDate) ? "Batch / Departure:" : "Departure Date:"}
+                </span>
                 <span className="font-semibold text-amber-300">
-                  {selectedDate
+                  {trek.batches?.find((b) => b.startDate === selectedDate)
+                    ? `🎉 ${trek.batches.find((b) => b.startDate === selectedDate)?.label}`
+                    : selectedDate
                     ? new Date(selectedDate).toLocaleDateString("en-IN", {
                         day: "numeric",
                         month: "short",
@@ -726,7 +800,7 @@ export default function TrekDetail() {
         <div className="flex items-center gap-2">
           <a
             href={`https://wa.me/919440650253?text=${encodeURIComponent(
-              `Hi Kailasa Trails! I want to confirm batch dates for ${trek.name} (${formatPrice(trek, trek.price)}/person + 5% GST = ${formatPrice(trek, Math.round(trek.price * 1.05))}).`
+              `Hi Kailasa Trails! I want to confirm batch dates for ${trek.name} (${formatPrice(trek, trek.price)}/person + 5% GST = ${formatPrice(trek, Math.round(trek.price * 1.05))})${selectedDate && trek.batches?.some(b => b.startDate === selectedDate) ? ` - ${trek.batches.find(b => b.startDate === selectedDate)?.label}` : ""}.`
             )}`}
             target="_blank"
             rel="noopener noreferrer"
