@@ -597,7 +597,7 @@ export default function Home() {
                         <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
                           <span className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-amber-400/40 text-amber-300 font-bold text-xs sm:text-sm shadow-xl">
                             <Tag className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400" />
-                            {formatPrice(trek, trek.price)} <span className="text-white/60 font-normal text-[11px] sm:text-xs">/ person</span> <span className="text-[9px] sm:text-[10px] font-bold text-emerald-300 bg-emerald-500/20 border border-emerald-400/30 px-1.5 py-0.5 rounded-full uppercase">+5% GST</span>
+                            {formatPrice(trek, trek.price)} <span className="text-white/60 font-normal text-[11px] sm:text-xs">/ person</span> <span className="text-[9px] sm:text-[10px] font-bold text-emerald-300 bg-emerald-500/20 border border-emerald-400/30 px-1.5 py-0.5 rounded-full uppercase">{trek.priceIncludesGst ? "INCL. 5% GST" : "+5% GST"}</span>
                           </span>
                         </div>
 
@@ -675,7 +675,7 @@ export default function Home() {
 
                         <a
                           href={`https://wa.me/919440650253?text=${encodeURIComponent(
-                            `Hi Kailasa Trails! I want to book the ${trek.name} (${formatPrice(trek, trek.price)}/person + 5% GST = ${formatPrice(trek, Math.round(trek.price * 1.05))})${trek.batches && trek.batches.length > 0 ? ` for the ${trek.batches[0].label}` : ""}. Please share the upcoming batch dates and booking details.`
+                            `Hi Kailasa Trails! I want to book the ${trek.name} (${formatPrice(trek, trek.price)}/person ${trek.priceIncludesGst ? "incl. 5% GST" : "+ 5% GST = " + formatPrice(trek, Math.round(trek.price * 1.05))})${trek.batches && trek.batches.length > 0 ? ` for the ${trek.batches[0].label}` : ""}. Please share the upcoming batch dates and booking details.`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"

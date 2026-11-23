@@ -35,6 +35,7 @@ export interface Trek {
   maxAltitude: string;
   totalDistance: string;
   batches?: TrekBatch[];
+  priceIncludesGst?: boolean;
 }
 
 export const treks: Trek[] = [
@@ -138,6 +139,7 @@ export const treks: Trek[] = [
     },
     "price": 7999,
     "currency": "INR",
+    "priceIncludesGst": true,
     "image": "/manus-storage/kedarkantha-cover.jpg",
     "shortDescription": "The Queen of Winter Treks \u2014 a 5-day snow-laden expedition through pine forests and frozen Juda Ka Talab to the summit of Kedarkantha at 12,500 ft.",
     "fullDescription": "Known as the \u201cQueen of Winter Treks,\u201d Kedarkantha packs summit views, frozen alpine lakes, and snow-laden pine forests into one of the most rewarding beginner treks in the Himalayas. Standing tall at 12,500 feet in Uttarakhand's Uttarkashi district, the trek offers a perfect blend of adventure, natural beauty, and spiritual vibes. Surrounded by breathtaking views of Himalayan peaks like Swargarohini, Bandarpoonch, and Kala Nag, trekkers camp at picturesque spots like Juda Ka Talab and Kedarkantha Base Camp under clear starlit skies before pushing for the sunrise summit.",
@@ -198,6 +200,7 @@ export const treks: Trek[] = [
       }
     ],
     "includes": [
+      "All taxes included: 5% GST included (Fixed ₹7,999/- flat per person)",
       "All transfers in shared taxi: Pickup and drop from Dehradun (both ways)",
       "Permits and entrance fees included",
       "Accommodation: High-quality alpine tents and guest houses",
@@ -208,7 +211,6 @@ export const treks: Trek[] = [
       "24\u00d77 customer service with 50+ professional team members"
     ],
     "excludes": [
-      "GST @ 5%",
       "Personal insurance",
       "Personal toiletry items & medicine kit",
       "Meals during transit (Dehradun to Sankri & back)",

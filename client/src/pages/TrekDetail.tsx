@@ -75,9 +75,18 @@ export default function TrekDetail() {
 
 
 
-  const baseFare = trek ? trek.price * peopleCount : 0;
-  const gstAmount = Math.round(baseFare * 0.05);
-  const totalPrice = baseFare + gstAmount;
+  const priceIncludesGst = !!trek?.priceIncludesGst;
+  const totalPrice = trek
+    ? priceIncludesGst
+      ? trek.price * peopleCount
+      : (trek.price * peopleCount) + Math.round((trek.price * peopleCount) * 0.05)
+    : 0;
+  const baseFare = trek
+    ? priceIncludesGst
+      ? Math.round(totalPrice / 1.05)
+      : trek.price * peopleCount
+    : 0;
+  const gstAmount = totalPrice - baseFare;
   const advanceAmount = 1000 * peopleCount;
 
   const generateWhatsAppBookingUrl = (withLeadInfo: boolean = false) => {
@@ -98,11 +107,19 @@ export default function TrekDetail() {
       `*Trek:* ${trek.name}`,
       matchingBatch ? `*Batch:* ${dateText}` : `*Departure Date:* ${dateText}`,
       `*Group Size:* ${peopleCount} ${peopleCount === 1 ? "Person" : "Trekkers"}`,
-      `*Base Fare:* ${formatPrice(trek, baseFare)} (${formatPrice(trek, trek.price)}/person)`,
-      `*GST (5%):* ₹${gstAmount.toLocaleString("en-IN")}`,
-      `*Total Price (incl. 5% GST):* ${formatPrice(trek, totalPrice)}`,
-      `*Advance to Reserve:* ₹${advanceAmount.toLocaleString("en-IN")} (₹1,000/person)`,
+      priceIncludesGst
+        ? `*Total Trek Fare (All-Inclusive):* ${formatPrice(trek, totalPrice)} (${formatPrice(trek, trek.price)}/person, 5% GST included)`
+        : `*Base Fare:* ${formatPrice(trek, baseFare)} (${formatPrice(trek, trek.price)}/person)`,
     ];
+
+    if (!priceIncludesGst) {
+      lines.push(`*GST (5%):* ₹${gstAmount.toLocaleString("en-IN")}`);
+      lines.push(`*Total Price (incl. 5% GST):* ${formatPrice(trek, totalPrice)}`);
+    } else {
+      lines.push(`*GST (5%):* ₹${gstAmount.toLocaleString("en-IN")} (already included in fixed ${formatPrice(trek, trek.price)}/person fare)`);
+    }
+
+    lines.push(`*Advance to Reserve:* ₹${advanceAmount.toLocaleString("en-IN")} (₹1,000/person)`);
 
     if (withLeadInfo && leadName.trim()) {
       lines.push(`*Lead Trekker:* ${leadName.trim()}`);
@@ -288,7 +305,10 @@ export default function TrekDetail() {
                   Price / Person
                 </p>
                 <p className="text-sm font-semibold text-primary">
-                  {formatPrice(trek, trek.price)} <span className="text-xs font-normal text-white/70">(+5% GST)</span>
+                  {formatPrice(trek, trek.price)}{" "}
+                  <span className="text-xs font-normal text-white/70">
+                    {trek.priceIncludesGst ? "(Incl. 5% GST)" : "(+5% GST)"}
+                  </span>
                 </p>
               </div>
             </div>
@@ -570,12 +590,20 @@ export default function TrekDetail() {
               </div>
               <div className="pt-2.5 border-t border-amber-900/15 space-y-1.5 text-xs text-muted-foreground">
                 <div className="flex justify-between items-center">
-                  <span>Base Trek Fare ({peopleCount} × {formatPrice(trek, trek.price)}):</span>
+                  <span>
+                    {trek.priceIncludesGst
+                      ? `Base Fare (${peopleCount} × ${formatPrice(trek, Math.round(trek.price / 1.05))}):`
+                      : `Base Trek Fare (${peopleCount} × ${formatPrice(trek, trek.price)}):`}
+                  </span>
                   <span className="font-semibold text-foreground">{formatPrice(trek, baseFare)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>Government GST (5%):</span>
-                  <span className="font-semibold text-emerald-700 font-mono">+₹{gstAmount.toLocaleString("en-IN")}</span>
+                  <span>{trek.priceIncludesGst ? "Statutory GST (5% included):" : "Government GST (5%):"}</span>
+                  <span className="font-semibold text-emerald-700 font-mono">
+                    {trek.priceIncludesGst
+                      ? `₹${gstAmount.toLocaleString("en-IN")} (included)`
+                      : `+₹${gstAmount.toLocaleString("en-IN")}`}
+                  </span>
                 </div>
                 <p className="text-[11px] text-muted-foreground/80 pt-1">
                   Certified guides, forest permits, safety equipment & all trail meals included
@@ -671,7 +699,11 @@ export default function TrekDetail() {
               </div>
               <div className="flex justify-between items-center text-xs text-emerald-400">
                 <span>Government GST (5%):</span>
-                <span>+₹{gstAmount.toLocaleString("en-IN")}</span>
+                <span>
+                  {trek.priceIncludesGst
+                    ? `₹${gstAmount.toLocaleString("en-IN")} (included)`
+                    : `+₹${gstAmount.toLocaleString("en-IN")}`}
+                </span>
               </div>
               <div className="border-t border-white/10 pt-2 flex justify-between items-center text-base">
                 <span className="font-semibold text-white/80">Total (incl. 5% GST):</span>
@@ -793,14 +825,14 @@ export default function TrekDetail() {
               {formatPrice(trek, trek.price)}
             </span>
             <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30">
-              +5% GST
+              {trek.priceIncludesGst ? "INCL. 5% GST" : "+5% GST"}
             </span>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <a
             href={`https://wa.me/919440650253?text=${encodeURIComponent(
-              `Hi Kailasa Trails! I want to confirm batch dates for ${trek.name} (${formatPrice(trek, trek.price)}/person + 5% GST = ${formatPrice(trek, Math.round(trek.price * 1.05))})${selectedDate && trek.batches?.some(b => b.startDate === selectedDate) ? ` - ${trek.batches.find(b => b.startDate === selectedDate)?.label}` : ""}.`
+              `Hi Kailasa Trails! I want to confirm batch dates for ${trek.name} (${formatPrice(trek, trek.price)}/person ${trek.priceIncludesGst ? "incl. 5% GST" : "+ 5% GST = " + formatPrice(trek, Math.round(trek.price * 1.05))})${selectedDate && trek.batches?.some(b => b.startDate === selectedDate) ? ` - ${trek.batches.find(b => b.startDate === selectedDate)?.label}` : ""}.`
             )}`}
             target="_blank"
             rel="noopener noreferrer"
