@@ -158,7 +158,7 @@ export function TermsOfServiceDialog({ open, onOpenChange }: ModalProps) {
             </h4>
             <ul className="list-disc pl-5 space-y-1.5 text-white/70">
               <li>
-                A non-refundable slot advance of <strong>₹1,000 per trekker</strong> secures your reservation for the selected departure date.
+                A slot advance of <strong>₹500 to ₹1,000 per trekker</strong> (₹500 for Kedarkantha Trek) secures your reservation for the selected departure date.
               </li>
               <li>
                 <strong>Statutory 5% GST:</strong> All adventure tourism services, guiding, campsite permits, and meals are billed with statutory 5% Goods and Services Tax as mandated by the Government of India.

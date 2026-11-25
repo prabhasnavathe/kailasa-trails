@@ -11,6 +11,7 @@ export interface TrekBatch {
   endDate: string;
   label: string;
   badge?: string;
+  description?: string;
   status?: "filling-fast" | "available" | "limited";
 }
 
@@ -36,6 +37,7 @@ export interface Trek {
   totalDistance: string;
   batches?: TrekBatch[];
   priceIncludesGst?: boolean;
+  advanceAmount?: number;
 }
 
 export const treks: Trek[] = [
@@ -140,11 +142,14 @@ export const treks: Trek[] = [
     "price": 7999,
     "currency": "INR",
     "priceIncludesGst": true,
+    "advanceAmount": 500,
     "image": "/manus-storage/kedarkantha-cover.jpg",
     "shortDescription": "The Queen of Winter Treks \u2014 a 5-day snow-laden expedition through pine forests and frozen Juda Ka Talab to the summit of Kedarkantha at 12,500 ft.",
     "fullDescription": "Known as the \u201cQueen of Winter Treks,\u201d Kedarkantha packs summit views, frozen alpine lakes, and snow-laden pine forests into one of the most rewarding beginner treks in the Himalayas. Standing tall at 12,500 feet in Uttarakhand's Uttarkashi district, the trek offers a perfect blend of adventure, natural beauty, and spiritual vibes. Surrounded by breathtaking views of Himalayan peaks like Swargarohini, Bandarpoonch, and Kala Nag, trekkers camp at picturesque spots like Juda Ka Talab and Kedarkantha Base Camp under clear starlit skies before pushing for the sunrise summit.",
     "highlights": [
+      "Special Christmas Batch: 23rd December to 27th December (White Christmas snow summit)",
       "Special New Year Batch: 29th December to 2nd January (Celebrate 12,500 ft summit sunrise)",
+      "Low Advance Booking: Only \u20b9500 to reserve your slot",
       "12,500 ft summit elevation with 360\u00b0 Himalayan panorama at dawn",
       "Juda Ka Talab \u2014 enchanting high-altitude frozen lake",
       "360\u00b0 views of Swargarohini, Bandarpoonch, and Kala Nag",
@@ -155,10 +160,19 @@ export const treks: Trek[] = [
     ],
     "batches": [
       {
+        "startDate": "2026-12-23",
+        "endDate": "2026-12-27",
+        "label": "Christmas Special Batch (23rd Dec \u2013 27th Dec)",
+        "badge": "Christmas Special \ud83c\udf84",
+        "description": "Celebrate a White Christmas in the Himalayas amidst snow-clad pines & frozen Juda Ka Talab!",
+        "status": "filling-fast"
+      },
+      {
         "startDate": "2026-12-29",
         "endDate": "2027-01-02",
         "label": "New Year Special Batch (29th Dec \u2013 2nd Jan)",
         "badge": "New Year Special \ud83c\udf89",
+        "description": "Ring in the New Year at 12,500 ft summit with 360° golden sunrise & starlit snow camp!",
         "status": "filling-fast"
       }
     ],
@@ -201,6 +215,7 @@ export const treks: Trek[] = [
     ],
     "includes": [
       "All taxes included: 5% GST included (Fixed ₹7,999/- flat per person)",
+      "Advance booking: Only ₹500 per person to reserve your slot",
       "All transfers in shared taxi: Pickup and drop from Dehradun (both ways)",
       "Permits and entrance fees included",
       "Accommodation: High-quality alpine tents and guest houses",

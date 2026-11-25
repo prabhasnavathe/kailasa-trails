@@ -152,7 +152,7 @@ export default function Legal({ type }: LegalPageProps) {
               </h2>
               <ul className="list-disc pl-5 space-y-2 text-sm text-white/70">
                 <li>
-                  A booking advance of <strong>₹1,000 per person</strong> secures your batch slot.
+                  A booking advance of <strong>₹500 to ₹1,000 per person</strong> (₹500 for Kedarkantha Trek) secures your batch slot.
                 </li>
                 <li>
                   <strong>Statutory 5% GST:</strong> All adventure tourism services are billed with 5% GST in accordance with Government of India regulations.

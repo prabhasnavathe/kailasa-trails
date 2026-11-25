@@ -629,7 +629,7 @@ export default function Home() {
                               key={bIdx}
                               className="px-3 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-amber-500/25 to-orange-500/25 text-amber-300 border border-amber-400/50 inline-flex items-center gap-1.5 shadow-sm"
                             >
-                              <span>🎉</span>
+                              <span>{batch.badge?.includes("🎄") ? "🎄" : "🎉"}</span>
                               <span>{batch.label}</span>
                             </span>
                           ))}
@@ -651,7 +651,7 @@ export default function Home() {
                           </div>
                           <div className="flex items-center gap-2.5 text-xs sm:text-sm text-white/80">
                             <Calendar className="h-4 w-4 text-amber-400 flex-shrink-0" />
-                            <span>Advance: ₹1,000 to book</span>
+                            <span>Advance: ₹{(trek.advanceAmount ?? 1000).toLocaleString("en-IN")} to book</span>
                           </div>
                           <div className="flex items-center gap-2.5 text-xs sm:text-sm text-white/80">
                             <Users className="h-4 w-4 text-cyan-400 flex-shrink-0" />

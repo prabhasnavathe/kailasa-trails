@@ -87,7 +87,8 @@ export default function TrekDetail() {
       : trek.price * peopleCount
     : 0;
   const gstAmount = totalPrice - baseFare;
-  const advanceAmount = 1000 * peopleCount;
+  const advancePerPerson = trek?.advanceAmount ?? 1000;
+  const advanceAmount = advancePerPerson * peopleCount;
 
   const generateWhatsAppBookingUrl = (withLeadInfo: boolean = false) => {
     if (!trek) return "#";
@@ -119,7 +120,7 @@ export default function TrekDetail() {
       lines.push(`*GST (5%):* ₹${gstAmount.toLocaleString("en-IN")} (already included in fixed ${formatPrice(trek, trek.price)}/person fare)`);
     }
 
-    lines.push(`*Advance to Reserve:* ₹${advanceAmount.toLocaleString("en-IN")} (₹1,000/person)`);
+    lines.push(`*Advance to Reserve:* ₹${advanceAmount.toLocaleString("en-IN")} (${formatPrice(trek, advancePerPerson)}/person)`);
 
     if (withLeadInfo && leadName.trim()) {
       lines.push(`*Lead Trekker:* ${leadName.trim()}`);
@@ -430,9 +431,9 @@ export default function TrekDetail() {
               <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-500/10 via-primary/5 to-emerald-500/10 border-2 border-amber-400/40 shadow-sm">
                 <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-xl">🎉</span>
+                    <span className="text-xl">🏔️</span>
                     <span className="text-xs font-extrabold uppercase tracking-wider text-amber-900 bg-amber-200/90 px-2.5 py-0.5 rounded-full border border-amber-400/60">
-                      Official Event Batch
+                      Official Special Batches
                     </span>
                   </div>
                   <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
@@ -460,7 +461,7 @@ export default function TrekDetail() {
                             <span>{batch.label}</span>
                           </p>
                           <p className="text-xs text-muted-foreground mt-0.5">
-                            Celebrate the New Year at 12,500 ft summit with 360° golden sunrise & starlit snow camp!
+                            {batch.description || "Official Himalayan expedition batch departure."}
                           </p>
                         </div>
                         <span
@@ -577,7 +578,7 @@ export default function TrekDetail() {
                   TOTAL PRICE FOR {peopleCount} {peopleCount === 1 ? "PERSON" : "PEOPLE"}
                 </p>
                 <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-600/15 text-emerald-800 font-bold border border-emerald-600/25">
-                  ₹{advanceAmount.toLocaleString("en-IN")} Advance to Reserve
+                  ₹{advanceAmount.toLocaleString("en-IN")} Advance ({formatPrice(trek, advancePerPerson)}/person)
                 </span>
               </div>
               <div className="flex items-baseline gap-2.5 mb-2">
@@ -713,7 +714,7 @@ export default function TrekDetail() {
               </div>
               <div className="flex justify-between items-center text-xs text-emerald-400">
                 <span>Advance to Reserve Slot:</span>
-                <span className="font-bold">₹{advanceAmount.toLocaleString("en-IN")}</span>
+                <span className="font-bold">₹{advanceAmount.toLocaleString("en-IN")} ({formatPrice(trek, advancePerPerson)}/person)</span>
               </div>
             </div>
 
